@@ -45,7 +45,7 @@ export class ApiError extends Error {
 }
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
-  const mock = getMock(method, path);
+  const mock = getMock(method, path, body);
   if (mock !== undefined) return mock as T;
 
   const headers: Record<string, string> = {};

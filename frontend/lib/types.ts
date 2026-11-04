@@ -136,6 +136,9 @@ export interface VentaDetalle extends VentaResumen {
   items: VentaItem[];
   recaudos: Recaudo[];
   documentos: DocumentoElectronico[];
+  devolver_manual?: number | null;
+  factura_pendiente?: boolean;
+  factura_error?: string | null;
 }
 
 export interface AbonoIn {
@@ -145,6 +148,7 @@ export interface AbonoIn {
 export interface NotaCreditoIn {
   concepto: 1 | 2 | 5;
   items?: ItemIn[];
+  monto?: number;
   observacion?: string;
 }
 
