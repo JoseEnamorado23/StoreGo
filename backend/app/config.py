@@ -1,11 +1,23 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# .env de la raíz del proyecto (config.py está en backend/app/), sin importar desde qué carpeta se ejecute.
+# En Docker el archivo no existe dentro del contenedor (compose inyecta las variables) y simplemente se ignora.
+ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
     """Configuración leída de variables de entorno (ver .env.example)."""
 
     # env_ignore_empty: una variable vacía en .env (p. ej. FACTUS_RANGO_NC=) cuenta como no definida
-    model_config = SettingsConfigDict(extra="ignore", env_ignore_empty=True)
+    # utf-8-sig tolera un BOM al inicio del archivo (lo agrega el Bloc de notas / PowerShell 5 al guardar)
+    model_config = SettingsConfigDict(
+        env_file=ENV_FILE,
+        env_file_encoding="utf-8-sig",
+        extra="ignore",
+        env_ignore_empty=True,
+    )
 
     app_env: str = "dev"
     app_admin_email: str
@@ -36,6 +48,10 @@ class Settings(BaseSettings):
 
     llm_provider: str = "gemini"
     llm_api_key: str = ""
+    # Vacío = el modelo por defecto del proveedor (ver MODELOS_DEFECTO en services/voz.py)
+    llm_model: str = ""
+    # Voz: false = analizador por reglas como camino principal; true = intenta primero la IA (con respaldo)
+    voz_usar_ia: bool = False
 
     cors_origins: str = "http://localhost:3000"
 

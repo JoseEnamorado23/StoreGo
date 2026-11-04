@@ -6,7 +6,9 @@ services:
       POSTGRES_PASSWORD: tienda
       POSTGRES_DB: tienda
     ports:
-      - "5432:5432"
+      # Host 5435 -> contenedor 5432. En Windows suele haber un PostgreSQL propio en 5432,
+      # y 5433/5434/5436 ya los usan otros contenedores. Dentro de Docker el backend sigue usando db:5432.
+      - "5435:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

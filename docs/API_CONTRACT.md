@@ -145,6 +145,14 @@ Body `{ texto }` →
 ```
 `cliente` y `tipo_pago` son `null` si no se mencionan.
 
+Campos opcionales (pueden no venir en clientes antiguos):
+- `advertencia: string|null`: aviso para el tendero. Viene cuando se usó el analizador por reglas en vez de la IA, o cuando es fiado y no se identificó cliente. Si es distinta de `null`, mostrarla y pedir que se revise el pedido.
+- `cliente.confianza: number|null` (0 a 1): qué tan seguro es el cruce con la tabla `clientes`. Es `<= 0.5` cuando hay varios clientes parecidos (se devuelve el más probable).
+
+`items[].confianza` va de 0 a 1; lo que no alcanza el umbral de coincidencia con `productos` sale en `no_reconocidos` (un cliente no encontrado sale como `"cliente: <nombre dicho>"`). Errores: `422` si `texto` está vacío o pasa de 1000 caracteres.
+
+**Estado de la IA:** con `VOZ_USAR_IA=false` se usa siempre el analizador por reglas (cantidades, `fiado`/`de contado`/`por QR`/`nequi`/`transferencia`, cliente tras `para`/`a` + don/doña) y nunca se llama al proveedor. Con `VOZ_USAR_IA=true` se intenta primero el proveedor de `LLM_PROVIDER` (`gemini` o `groq`; modelo en `LLM_MODEL`, por defecto `gemini-3.8-flash` y `openai/gpt-oss-20b` respectivamente; espera máxima 8 s) y ante cualquier fallo se cae a las reglas. Verificado: Groq con `openai/gpt-oss-20b` extrajo bien una frase real en 2,3 s (los modelos Llama ya no están disponibles en la cuenta de prueba). Gemini no se pudo verificar: `gemini-2.5-flash` responde `404` y `gemini-3.8-flash` respondió `503`/agotó el tiempo. Por eso `.env.example` recomienda `LLM_PROVIDER=groq` y `VOZ_USAR_IA=true`; el valor por defecto en código sigue siendo `false` (reglas) si la variable no está definida.
+
 ### Reportes
 
 #### `GET /api/reportes/resumen`
@@ -174,3 +182,6 @@ facturacion.crear_nota_debito(reference_code, factura_numero, concepto, items, p
 - `cliente=None` significa consumidor final (`13` / `22222222222`) en las tres: Factus exige `customer` también en las notas.
 - `DocumentoOut.errores` son avisos de la DIAN, no fallas: `dict` en facturas, lista de textos en notas, o `None`. En las notas Factus devuelve `cude`; `DocumentoOut` lo expone como `cufe`.
 - Rango de numeración: se elige el primer rango activo, no vencido y con consecutivos disponibles para cada documento, o el que fuerce `FACTUS_RANGO_FACTURA`, `FACTUS_RANGO_NC` o `FACTUS_RANGO_ND`.
+- Rango de numeración en las notas: `numbering_range_id` es **obligatorio** (la cuenta tiene dos rangos de nota crédito activos, `CRTE` y `NC`); sin él Factus responde `422`. El servicio lo manda siempre y cachea la lista de rangos 10 min.
+- Errores que puede lanzar el servicio de facturación (todos `HTTPException` con mensaje en español): `422` si Factus rechaza los datos (por ejemplo ítem sin precio → `items.0.price`) o si la DIAN rechaza el documento (`RechazoDIAN`); `409` si hay un documento pendiente que no es nuestro (`ConflictoPendiente`, puede ser de otro equipo con las mismas credenciales); `502`/`504` si Factus falla o tarda más de 30 s.
+- Borrar documentos pendientes (uso interno ante un `409`): factura `DELETE /v2/bills/destroy/reference/{ref}`, nota crédito `DELETE /v2/credit-notes/reference/{ref}`, nota débito `DELETE /v2/debit-notes/reference/{ref}`. Un documento ya validado no se puede borrar (`409`).

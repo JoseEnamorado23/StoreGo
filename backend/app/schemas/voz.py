@@ -17,6 +17,8 @@ class VozItem(BaseModel):
 class VozCliente(BaseModel):
     id: int
     nombres: str
+    # Extensión opcional del contrato: baja (<= 0.5) cuando hay varios clientes parecidos
+    confianza: float | None = None
 
 
 class VozOut(BaseModel):
@@ -24,3 +26,5 @@ class VozOut(BaseModel):
     cliente: VozCliente | None = None
     tipo_pago: TipoPago | None = None
     no_reconocidos: list[str]
+    # Extensión opcional del contrato: avisos para el tendero (p. ej. "se usó el analizador de respaldo")
+    advertencia: str | None = None
