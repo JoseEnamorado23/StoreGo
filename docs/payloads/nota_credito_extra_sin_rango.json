@@ -1,0 +1,58 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/credit-notes/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793811625-X3",
+      "correction_concept_code": "1",
+      "customization_id": "20",
+      "bill_number": "SETP990033368",
+      "customer": {
+        "identification_document_code": "31",
+        "identification": "900123456",
+        "company": "Restaurante El Fogón SAS",
+        "legal_organization_code": "1",
+        "email": "fogon@example.com",
+        "address": "Calle 20 # 5-10"
+      },
+      "payment_details": [
+        {
+          "payment_form": "1",
+          "payment_method_code": "10",
+          "amount": "4800.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ARROZ-1",
+          "name": "Arroz 500 g",
+          "quantity": "2.00",
+          "price": "2400.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "0.00"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 422,
+    "body": {
+      "status": "Validation error",
+      "message": "Error de validación",
+      "data": {
+        "message": "Error de validación",
+        "errors": {
+          "numbering_range_id": [
+            "El campo id rango de numeración es obligatorio."
+          ]
+        }
+      }
+    }
+  }
+}

@@ -54,11 +54,13 @@ def test_rango_elige_activo_no_vencido_y_con_consecutivos(monkeypatch):
     async def falsos():
         return RANGOS
 
+    fact.limpiar_cache_rangos()
     monkeypatch.setattr(fact, "listar_rangos", falsos)
     assert asyncio.run(fact.rango_para("nota_credito")) == 3
     assert asyncio.run(fact.rango_para("factura")) == 4
     with pytest.raises(HTTPException):
         asyncio.run(fact.rango_para("nota_debito"))
+    fact.limpiar_cache_rangos()
 
 
 def test_rango_forzado_por_env(monkeypatch):

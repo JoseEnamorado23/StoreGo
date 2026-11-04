@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "https://api-sandbox.factus.com.co/v2/bills/destroy/reference/TFJM-PRUEBA-1793811625-X2",
+    "body": null
+  },
+  "response": {
+    "status": 409,
+    "body": {
+      "status": "Conflict",
+      "message": "Documento con código de referencia TFJM-PRUEBA-1793811625-X2 se encuentra validado"
+    }
+  }
+}

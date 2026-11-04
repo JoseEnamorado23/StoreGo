@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "https://api-sandbox.factus.com.co/v2/debit-notes/reference/TFJM-PRUEBA-1793811625-NOEXISTE",
+    "body": null
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "status": "Not Found",
+      "message": "No se encontró el documento con código de referencia TFJM-PRUEBA-1793811625-NOEXISTE"
+    }
+  }
+}

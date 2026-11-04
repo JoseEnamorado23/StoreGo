@@ -1,0 +1,232 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/bills/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793811625-X2",
+      "customer": {
+        "identification_document_code": "31",
+        "identification": "900123456",
+        "company": "Restaurante El Fogón SAS",
+        "legal_organization_code": "1",
+        "email": "fogon@example.com",
+        "address": "Calle 20 # 5-10"
+      },
+      "payment_details": [
+        {
+          "payment_form": "1",
+          "payment_method_code": "10",
+          "amount": "4800.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ARROZ-1",
+          "name": "Arroz 500 g",
+          "quantity": "2.00",
+          "price": "2400.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "0.00"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "status": "Created",
+      "message": "Documento con el código de referencia TFJM-PRUEBA-1793811625-X2 registrado y validado con éxito",
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793811625-X2",
+        "number": "SETP990033368",
+        "document_type": {
+          "code": "01",
+          "name": "Factura electrónica de Venta"
+        },
+        "operation_type": {
+          "code": "10",
+          "name": "Estándar"
+        },
+        "order_reference": null,
+        "billing_period": null,
+        "payment_details": [
+          {
+            "payment_form": {
+              "code": "1",
+              "name": "Pago de contado"
+            },
+            "payment_method": {
+              "code": "10",
+              "name": "Efectivo"
+            },
+            "reference_code": null,
+            "amount": "4800.00",
+            "due_date": null
+          }
+        ],
+        "send_email": false,
+        "has_claim": false,
+        "is_negotiable_instrument": false,
+        "is_validated": true,
+        "validated_at": "04-11-2026 12:00:26 PM",
+        "errors": {
+          "FAK08": "Regla: FAK08, Notificación: El grupo deberá estar conformado al menos por el conjunto de elementos ID, CityName, CountrySubentity, CountrySubentityCode, AddressLine, Line, Country, IdentificationCode",
+          "FAJ44b": "Regla: FAJ44b, Notificación: Nit o Documento de Identificación informado No corresponde al registrado en el RUT con respecto a la razón social o nombre comercial suministrado.",
+          "FAJ43b": "Regla: FAJ43b, Notificación: Nombre informado No corresponde al registrado en el RUT con respecto al Nit suministrado.",
+          "RUT01": "Regla: RUT01, Notificación: La validación del estado del RUT próximamente estará disponible"
+        },
+        "observation": null,
+        "created_at": "04-11-2026 12:00:26 PM",
+        "numbering_range": {
+          "prefix": "SETP",
+          "from": 990000000,
+          "to": 995000000,
+          "resolution_number": "18760000001",
+          "start_date": "19-01-2019",
+          "end_date": "19-01-2030",
+          "months": 132
+        },
+        "health": null,
+        "beneficiary": null,
+        "company": {
+          "url_logo": "https://api-sandbox.factus.com.co/logos/companies/1000789002/logos/logo-PabrWVczL536uMeLeWFBBIq0pmitvv4V.png",
+          "nit": "1000789002",
+          "dv": "2",
+          "economic_activity": "1084",
+          "establishment": {
+            "name": "FACTUS V2",
+            "address": "calle 11 8 84",
+            "phone_number": "3161331234",
+            "email": "factus@tudominio.com",
+            "municipality": {
+              "code": "68679",
+              "name": "San Gil",
+              "department": {
+                "code": "68",
+                "name": "Santander"
+              }
+            }
+          }
+        },
+        "customer": {
+          "identification_document": {
+            "code": "31",
+            "name": "NIT"
+          },
+          "identification": "900123456",
+          "dv": "8",
+          "graphic_representation_name": "Restaurante El Fogón SAS",
+          "trade_name": null,
+          "company": "Restaurante El Fogón SAS",
+          "names": null,
+          "address": "Calle 20 # 5-10",
+          "email": "fogon@example.com",
+          "phone": null,
+          "legal_organization": {
+            "code": "1",
+            "name": "Persona Jurídica"
+          },
+          "tribute": {
+            "code": "ZZ",
+            "name": "No aplica"
+          },
+          "responsibilities": [
+            {
+              "code": "R-99-PN",
+              "name": "No responsable"
+            }
+          ],
+          "country": null,
+          "municipality": null
+        },
+        "items": [
+          {
+            "scheme_id": null,
+            "collection_concept": null,
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "ARROZ-1",
+            "name": "Arroz 500 g",
+            "quantity": "2.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": "2400.00",
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "4800.00",
+                    "tax_amount": "0.00",
+                    "rate": "0.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "2400.00",
+            "commercial_sample": null,
+            "total": "4800.00"
+          }
+        ],
+        "prepayment_details": [],
+        "allowance_charges": [],
+        "taxes": [
+          {
+            "tribute": {
+              "code": "01",
+              "name": "IVA"
+            },
+            "is_excluded": false,
+            "rates": [
+              {
+                "taxable_amount": "4800.00",
+                "tax_amount": "0.00",
+                "rate": "0.00"
+              }
+            ]
+          }
+        ],
+        "withholding_taxes": [],
+        "totals": {
+          "prepayment_amount": "0.00",
+          "gross_amount": "4800.00",
+          "taxable_amount": "4800.00",
+          "tax_amount": "0.00",
+          "surcharge_amount": "0.00",
+          "total": "4800.00"
+        },
+        "currency": null,
+        "related_documents": [],
+        "related_notes": {
+          "credit_notes": [],
+          "debit_notes": []
+        },
+        "cufe": "733fd9aebb8023d4db058f8c3659fab4835fca8d25ccf1fe96ea6f05fea9542c721bef513645dcee4261fd29a05471be",
+        "links": {
+          "qr": "https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?docu...<recortado, 164 caracteres>",
+          "public_url": "https://app-sandbox.factus.com.co/documents/bills/44ed30322285b91b5f400b2e39f613a4d158d42422cf051cbb9e7bd644dc0eb2"
+        }
+      }
+    }
+  }
+}

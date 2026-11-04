@@ -135,6 +135,58 @@ def pago(items: list[dict], forma: str = "1", metodo: str = "10", vence: str | N
     return [detalle]
 
 
+def extras(f: Factus, pref: str) -> None:
+    """Casos que completan la exploración (python scripts/probar_facturacion.py --extra).
+    Usa cantidades y precios como string (como indica la documentación) y no repite lo ya probado."""
+    item_s = {
+        "code_reference": "ARROZ-1", "name": "Arroz 500 g", "quantity": "2.00", "price": "2400.00",
+        "unit_measure_code": "94", "standard_code": "999", "taxes": [{"code": "01", "rate": "0.00"}],
+    }
+    pago_s = [{"payment_form": "1", "payment_method_code": "10", "amount": "4800.00"}]
+    empresa = {
+        "identification_document_code": "31", "identification": "900123456",  # sin dígito de verificación
+        "company": "Restaurante El Fogón SAS", "legal_organization_code": "1",
+        "email": "fogon@example.com", "address": "Calle 20 # 5-10",
+    }
+
+    # Ítem sin precio: error provocado
+    sin_precio = {k: v for k, v in item_s.items() if k != "price"}
+    f.llamar("factura_error_item_sin_precio", "POST", "/v2/bills/validate", json={
+        "reference_code": f"{pref}-X1", "customer": CONSUMIDOR_FINAL, "payment_details": pago_s, "items": [sin_precio],
+    })
+
+    # Empresa con NIT (dv lo calcula la API) y sin numbering_range_id (solo hay un rango de facturas activo)
+    r = f.llamar("factura_extra_empresa_nit_sin_rango", "POST", "/v2/bills/validate", json={
+        "reference_code": f"{pref}-X2", "customer": empresa, "payment_details": pago_s, "items": [item_s],
+    })
+    numero = numero_de(r)
+
+    # Nota crédito sin numbering_range_id: hay dos rangos de nota crédito activos
+    if numero:
+        f.llamar("nota_credito_extra_sin_rango", "POST", "/v2/credit-notes/validate", json={
+            "reference_code": f"{pref}-X3", "correction_concept_code": "1", "customization_id": "20",
+            "bill_number": numero, "customer": empresa, "payment_details": pago_s, "items": [item_s],
+        })
+
+    # Borrar un documento ya validado y los endpoints de borrado de notas (con códigos inexistentes)
+    f.llamar("factura_extra_borrar_validada", "DELETE", f"/v2/bills/destroy/reference/{pref}-X2")
+    f.llamar("nota_credito_extra_borrar_inexistente", "DELETE", f"/v2/credit-notes/reference/{pref}-NOEXISTE")
+    f.llamar("nota_debito_extra_borrar_inexistente", "DELETE", f"/v2/debit-notes/reference/{pref}-NOEXISTE")
+
+    # Renovación con refresh_token, sin y con encabezado Authorization
+    form = {
+        "grant_type": "refresh_token", "client_id": f.env["FACTUS_CLIENT_ID"],
+        "client_secret": f.env["FACTUS_CLIENT_SECRET"], "refresh_token": f.refresh,
+    }
+    for nombre, cab in (("sin_auth", {}), ("con_auth", {"Authorization": f"Bearer {f.token}"})):
+        resp = f.cli.post(f"{f.base}/oauth/token", data=form, headers={"Accept": "application/json", **cab})
+        reg = guardar(f"factura_token_refresh_{nombre}", "POST", f"{f.base}/oauth/token", form, resp)
+        resumen.append((f"factura_token_refresh_{nombre}", "POST /oauth/token (refresh)", resp.status_code, mensaje(reg["response"]["body"])))
+        if resp.status_code == 200:
+            f._guardar_tokens(resp)
+            form["refresh_token"] = f.refresh  # por si rota
+
+
 def main() -> None:
     env = cargar_env()
     exigir(env, ["FACTUS_BASE_URL", "FACTUS_CLIENT_ID", "FACTUS_CLIENT_SECRET", "FACTUS_USERNAME", "FACTUS_PASSWORD", "REFERENCE_PREFIX"])
@@ -144,6 +196,10 @@ def main() -> None:
         sys.exit("No se pudo obtener el token (ver docs/payloads/factura_token.json)")
 
     pref = f"{env['REFERENCE_PREFIX']}-PRUEBA-{int(time.time())}"
+    if "--extra" in sys.argv:
+        extras(f, pref)
+        imprimir()
+        return
 
     # --- Rangos ---------------------------------------------------------------
     r = f.llamar("factura_rangos", "GET", "/v2/numbering-ranges", params={"filter[is_active]": 1})
