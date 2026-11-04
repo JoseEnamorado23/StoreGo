@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://pay-api-sandbox.factus.com.co/v1/collections/TFJM-PRUEBA-1793809276",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793809276",
+        "amount": 15000,
+        "status": "paid",
+        "breb_key": "@FC8UL6IPPXOA9QB6X48P",
+        "created_at": "04-11-2026 11:21:16 AM",
+        "qr_expires_at": "05-11-2026 11:21:16 AM",
+        "collected_at": "04-11-2026 11:36:22 AM",
+        "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXQAAAF0CAYAAA...<recortado, 16442 caracteres>"
+      },
+      "status": "success",
+      "message": "Recaudo encontrado"
+    }
+  }
+}

@@ -4,7 +4,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     """Configuración leída de variables de entorno (ver .env.example)."""
 
-    model_config = SettingsConfigDict(extra="ignore")
+    # env_ignore_empty: una variable vacía en .env (p. ej. FACTUS_RANGO_NC=) cuenta como no definida
+    model_config = SettingsConfigDict(extra="ignore", env_ignore_empty=True)
 
     app_env: str = "dev"
     app_admin_email: str
@@ -24,6 +25,14 @@ class Settings(BaseSettings):
     factus_pay_email: str = ""
     factus_pay_password: str = ""
     factus_pay_webhook_key: str = ""
+    # Límites de monto de Factus Pay, enteros COP (verificados en el sandbox)
+    pay_min_amount: int = 10_000
+    pay_max_amount: int = 12_000_000
+
+    # Fuerzan el rango de numeración por documento; si no se definen se elige uno desde listar_rangos()
+    factus_rango_factura: int | None = None
+    factus_rango_nc: int | None = None
+    factus_rango_nd: int | None = None
 
     llm_provider: str = "gemini"
     llm_api_key: str = ""

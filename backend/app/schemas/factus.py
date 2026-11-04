@@ -4,7 +4,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
 
 class RecaudoOut(BaseModel):
@@ -21,11 +21,19 @@ class DocumentoOut(BaseModel):
     tipo: Literal["factura", "nota_credito", "nota_debito"]
     reference_code: str
     numero: str | None = None
-    cufe: str | None = None
+    cufe: str | None = None  # en las notas Factus lo llama "cude": se mapea aquí
     is_validated: bool = False
     public_url: str | None = None
     qr_url: str | None = None
-    errores: dict | None = None
+    # Avisos de la DIAN, no fallas: dict en facturas, lista de textos en notas
+    errores: dict | list | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _cude_como_cufe(cls, datos):
+        if isinstance(datos, dict) and not datos.get("cufe") and datos.get("cude"):
+            datos = {**datos, "cufe": datos["cude"]}
+        return datos
 
 
 class ItemFactura(BaseModel):

@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://pay-api-sandbox.factus.com.co/v1/collections",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809276-MIN",
+      "amount": 5000,
+      "expiration": 86400
+    }
+  },
+  "response": {
+    "status": 422,
+    "body": {
+      "message": "The amount field must be at least 10000.",
+      "errors": {
+        "amount": [
+          "The amount field must be at least 10000."
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://pay-api-sandbox.factus.com.co/v1/collections",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809276-MAX",
+      "amount": 12000001,
+      "expiration": 86400
+    }
+  },
+  "response": {
+    "status": 422,
+    "body": {
+      "message": "The amount field must not be greater than 12000000.",
+      "errors": {
+        "amount": [
+          "The amount field must not be greater than 12000000."
+        ]
+      }
+    }
+  }
+}

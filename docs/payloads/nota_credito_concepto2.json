@@ -1,0 +1,275 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/credit-notes/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809616-NC2",
+      "correction_concept_code": 2,
+      "customization_id": "20",
+      "bill_number": "SETP990033341",
+      "customer": {
+        "identification_document_code": "13",
+        "identification": "22222222222",
+        "names": "Consumidor Final"
+      },
+      "observation": "Anulación de prueba",
+      "payment_details": [
+        {
+          "payment_form": "1",
+          "payment_method_code": "10",
+          "amount": "36270.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ACEITE-1",
+          "name": "Aceite 1 L",
+          "quantity": 2,
+          "price": "11500.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "19.00"
+            }
+          ]
+        },
+        {
+          "code_reference": "CAFE-1",
+          "name": "Café 250 g",
+          "quantity": 1,
+          "price": "8900.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "0.00"
+            }
+          ]
+        }
+      ],
+      "numbering_range_id": 1776
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "status": "Created",
+      "message": "Documento con el código de referencia TFJM-PRUEBA-1793809616-NC2 registrado y validado con éxito",
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793809616-NC2",
+        "number": "CRTE1397",
+        "correction_concept": {
+          "code": "2",
+          "name": "Anulación de factura electrónica"
+        },
+        "customization_id": {
+          "code": "20",
+          "name": "Nota Crédito que referencia una factura electrónica."
+        },
+        "payment_details": [
+          {
+            "payment_form": {
+              "code": "1",
+              "name": "Pago de contado"
+            },
+            "payment_method": {
+              "code": "10",
+              "name": "Efectivo"
+            },
+            "reference_code": null,
+            "amount": "36270.00",
+            "due_date": null
+          }
+        ],
+        "billing_period": null,
+        "send_email": false,
+        "is_validated": true,
+        "validated_at": "04-11-2026 11:27:10 AM",
+        "errors": [
+          "Regla: CAK28, Notificación: No se encuentra el grupo RegistrationAddress",
+          "Regla: CAK55, Notificación: Correo electrónico no informado",
+          "Regla: CBF02, Notificación: No se informo el numero de la factura referenciada",
+          "Regla: RUT01, Notificación: La validación del estado del RUT próximamente estará disponible."
+        ],
+        "observation": "Anulación de prueba",
+        "created_at": "04-11-2026 11:27:09 AM",
+        "health": null,
+        "company": {
+          "url_logo": "https://api-sandbox.factus.com.co/logos/companies/1000789002/logos/logo-PabrWVczL536uMeLeWFBBIq0pmitvv4V.png",
+          "nit": "1000789002",
+          "dv": "2",
+          "economic_activity": "1084",
+          "establishment": {
+            "name": "FACTUS V2",
+            "address": "calle 11 8 84",
+            "phone_number": "3161331234",
+            "email": "factus@tudominio.com",
+            "municipality": {
+              "code": "68679",
+              "name": "San Gil",
+              "department": {
+                "code": "68",
+                "name": "Santander"
+              }
+            }
+          }
+        },
+        "customer": {
+          "identification_document": {
+            "code": "13",
+            "name": "Cédula ciudadanía"
+          },
+          "identification": "22222222222",
+          "dv": null,
+          "graphic_representation_name": "Consumidor Final",
+          "trade_name": null,
+          "company": null,
+          "names": "Consumidor Final",
+          "address": "No informado",
+          "email": null,
+          "phone": null,
+          "legal_organization": {
+            "code": "2",
+            "name": "Persona Natural"
+          },
+          "tribute": {
+            "code": "ZZ",
+            "name": "No aplica"
+          },
+          "responsibilities": [
+            {
+              "code": "R-99-PN",
+              "name": "No responsable"
+            }
+          ],
+          "country": null,
+          "municipality": null
+        },
+        "items": [
+          {
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "ACEITE-1",
+            "name": "Aceite 1 L",
+            "quantity": "2.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": "11500.00",
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "23000.00",
+                    "tax_amount": "4370.00",
+                    "rate": "19.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "11500.00",
+            "commercial_sample": null,
+            "total": "27370.00"
+          },
+          {
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "CAFE-1",
+            "name": "Café 250 g",
+            "quantity": "1.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": "8900.00",
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "8900.00",
+                    "tax_amount": "0.00",
+                    "rate": "0.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "8900.00",
+            "commercial_sample": null,
+            "total": "8900.00"
+          }
+        ],
+        "allowance_charges": [],
+        "taxes": [
+          {
+            "tribute": {
+              "code": "01",
+              "name": "IVA"
+            },
+            "is_excluded": false,
+            "rates": [
+              {
+                "taxable_amount": "23000.00",
+                "tax_amount": "4370.00",
+                "rate": "19.00"
+              },
+              {
+                "taxable_amount": "8900.00",
+                "tax_amount": "0.00",
+                "rate": "0.00"
+              }
+            ]
+          }
+        ],
+        "withholding_taxes": [],
+        "totals": {
+          "gross_amount": "31900.00",
+          "taxable_amount": "31900.00",
+          "tax_amount": "4370.00",
+          "surcharge_amount": "0.00",
+          "total": "36270.00"
+        },
+        "currency": null,
+        "cude": "8f799452098845072c06a2919938bee41fb9d785cba677d0bde61bc05f12f166a89be17bf0849dc753c95e64e7440e64",
+        "bill": {
+          "reference_code": "TFJM-PRUEBA-1793809616-F1",
+          "number": "SETP990033341",
+          "cufe": "d194b372fda46d7423b9ba95fd26ed9ee0c184ac2e59eebc1924a094954a6e3772987a3a7f9ab9d0fc0eddd3664035b3"
+        },
+        "links": {
+          "qr": "https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?docu...<recortado, 164 caracteres>",
+          "public_url": "https://app-sandbox.factus.com.co/documents/credit-notes/c9512d5b15eec292417930a4ae3eb96f46e5b7038a83636467c32dec7d72002b"
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from decimal import Decimal
 
 from sqlalchemy import (
@@ -54,13 +54,18 @@ class Venta(Base):
     estado: Mapped[str] = mapped_column(String(20))
     total: Mapped[Decimal] = mapped_column(Numeric(12, 2))  # con IVA
     due_date: Mapped[date | None] = mapped_column(Date, nullable=True)  # solo fiado
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    # Si Factus falla al facturar una venta ya cobrada, la venta se conserva y se marca para reintentar
+    factura_pendiente: Mapped[bool] = mapped_column(Boolean, default=False)
+    factura_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), server_default=func.now()
+    )
 
     cliente: Mapped[Cliente | None] = relationship()
-    items: Mapped[list["VentaItem"]] = relationship(back_populates="venta")
-    recaudos: Mapped[list["Recaudo"]] = relationship(back_populates="venta")
+    items: Mapped[list["VentaItem"]] = relationship(back_populates="venta", order_by="VentaItem.id")
+    recaudos: Mapped[list["Recaudo"]] = relationship(back_populates="venta", order_by="Recaudo.id")
     documentos: Mapped[list["DocumentoElectronico"]] = relationship(
-        back_populates="venta", foreign_keys="DocumentoElectronico.venta_id"
+        back_populates="venta", foreign_keys="DocumentoElectronico.venta_id", order_by="DocumentoElectronico.id"
     )
 
 
@@ -109,7 +114,9 @@ class DocumentoElectronico(Base):
     factura_origen_id: Mapped[int | None] = mapped_column(
         ForeignKey("documentos_electronicos.id"), nullable=True
     )
-    errores: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    errores: Mapped[dict | list | None] = mapped_column(JSON, nullable=True)
+    # Valor con IVA del documento; sirve para el saldo de los fiados y para las devoluciones
+    monto: Mapped[Decimal] = mapped_column(Numeric(12, 2), default=0)
 
     venta: Mapped[Venta] = relationship(back_populates="documentos", foreign_keys=[venta_id])
 
@@ -121,8 +128,11 @@ class MovimientoInventario(Base):
     producto_id: Mapped[int] = mapped_column(ForeignKey("productos.id"))
     venta_id: Mapped[int | None] = mapped_column(ForeignKey("ventas.id"), nullable=True)
     tipo: Mapped[str] = mapped_column(String(20))  # venta|devolucion|entrada|ajuste
-    cantidad: Mapped[int] = mapped_column(Integer)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    cantidad: Mapped[int] = mapped_column(Integer)  # con signo: venta -n, devolucion +n, entrada +n
+    nota: Mapped[str | None] = mapped_column(String(300), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), server_default=func.now()
+    )
 
 
 class WebhookEvento(Base):

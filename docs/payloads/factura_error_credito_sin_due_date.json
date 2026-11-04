@@ -1,0 +1,57 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/bills/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809616-E1",
+      "customer": {
+        "identification_document_code": "13",
+        "identification": "1017123456",
+        "names": "Juan Pérez Prueba",
+        "legal_organization_code": "2",
+        "email": "juan.prueba@example.com",
+        "phone": "3001234567",
+        "address": "Calle 1 # 2-3"
+      },
+      "payment_details": [
+        {
+          "payment_form": "2",
+          "payment_method_code": "47",
+          "amount": "27370.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ACEITE-1",
+          "name": "Aceite 1 L",
+          "quantity": 2,
+          "price": "11500.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "19.00"
+            }
+          ]
+        }
+      ],
+      "numbering_range_id": 389
+    }
+  },
+  "response": {
+    "status": 422,
+    "body": {
+      "status": "Validation error",
+      "message": "Error de validación",
+      "data": {
+        "message": "Error de validación",
+        "errors": {
+          "payment_details.0.due_date": [
+            "El campo fecha de vencimiento es obligatorio."
+          ]
+        }
+      }
+    }
+  }
+}

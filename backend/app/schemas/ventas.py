@@ -22,12 +22,15 @@ class VentaCreate(BaseModel):
 
 
 class AbonoIn(BaseModel):
-    monto: int = Field(ge=1000, le=12_100_000)  # entero COP (límites de Factus Pay)
+    # entero COP; el servicio valida los límites de Factus Pay (PAY_MIN_AMOUNT / PAY_MAX_AMOUNT) con mensaje en español
+    monto: int = Field(gt=0)
 
 
 class NotaCreditoIn(BaseModel):
     concepto: Literal[1, 2, 5]
     items: list[ItemIn] | None = None  # concepto 1: items devueltos
+    # concepto 5: descuento por pronto pago, entero COP con IVA incluido (se reparte entre las líneas de la factura)
+    monto: int | None = Field(default=None, gt=0)
     observacion: str | None = None
 
 
@@ -67,7 +70,8 @@ class DocumentoVentaOut(ORMModel):
     is_validated: bool
     public_url: str | None = None
     factura_origen_id: int | None = None
-    errores: dict | None = None
+    errores: dict | list | None = None  # avisos de la DIAN: dict en facturas, lista en notas
+    monto: Dinero = 0  # valor con IVA del documento
 
 
 class VentaResumen(ORMModel):
@@ -83,6 +87,11 @@ class VentaResumen(ORMModel):
 
 class VentaDetalle(VentaResumen):
     saldo: Dinero
+    # Si Factus falló al facturar una venta ya cobrada: true + mensaje legible; se reintenta con refrescar-pago
+    factura_pendiente: bool = False
+    factura_error: str | None = None
+    # COP que el tendero debe devolver a mano (Factus Pay no hace reversos); null si no aplica
+    devolver_manual: int | None = None
     cliente: ClienteOut | None = None
     items: list[VentaItemOut]
     recaudos: list[RecaudoOut]

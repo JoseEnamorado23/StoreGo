@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://pay-api-sandbox.factus.com.co/auth",
+    "body": {
+      "email": "<redactado>",
+      "password": "<redactado>"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "token": "<redactado>"
+    }
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/bills/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809616-F1",
+      "customer": {
+        "identification_document_code": "13",
+        "identification": "22222222222",
+        "names": "Consumidor Final"
+      },
+      "payment_details": [
+        {
+          "payment_form": "1",
+          "payment_method_code": "10",
+          "amount": "36270.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ACEITE-1",
+          "name": "Aceite 1 L",
+          "quantity": 2,
+          "price": "11500.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "19.00"
+            }
+          ]
+        },
+        {
+          "code_reference": "CAFE-1",
+          "name": "Café 250 g",
+          "quantity": 1,
+          "price": "8900.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "0.00"
+            }
+          ]
+        }
+      ],
+      "numbering_range_id": 389
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "status": "Created",
+      "message": "Documento con el código de referencia TFJM-PRUEBA-1793809616-F1 registrado y validado con éxito",
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793809616-F1",
+        "number": "SETP990033341",
+        "document_type": {
+          "code": "01",
+          "name": "Factura electrónica de Venta"
+        },
+        "operation_type": {
+          "code": "10",
+          "name": "Estándar"
+        },
+        "order_reference": null,
+        "billing_period": null,
+        "payment_details": [
+          {
+            "payment_form": {
+              "code": "1",
+              "name": "Pago de contado"
+            },
+            "payment_method": {
+              "code": "10",
+              "name": "Efectivo"
+            },
+            "reference_code": null,
+            "amount": "36270.00",
+            "due_date": null
+          }
+        ],
+        "send_email": false,
+        "has_claim": false,
+        "is_negotiable_instrument": false,
+        "is_validated": true,
+        "validated_at": "04-11-2026 11:27:00 AM",
+        "errors": {
+          "FAK08": "Regla: FAK08, Notificación: El grupo deberá estar conformado al menos por el conjunto de elementos ID, CityName, CountrySubentity, CountrySubentityCode, AddressLine, Line, Country, IdentificationCode",
+          "RUT01": "Regla: RUT01, Notificación: La validación del estado del RUT próximamente estará disponible",
+          "FAJ44b": "Regla: FAJ44b, Notificación: Nit o Documento de Identificación informado No corresponde al registrado en el RUT con respecto a la razón social o nombre comercial suministrado.",
+          "FAJ43b": "Regla: FAJ43b, Notificación: Nombre informado No corresponde al registrado en el RUT con respecto al Nit suministrado."
+        },
+        "observation": null,
+        "created_at": "04-11-2026 11:26:59 AM",
+        "numbering_range": {
+          "prefix": "SETP",
+          "from": 990000000,
+          "to": 995000000,
+          "resolution_number": "18760000001",
+          "start_date": "19-01-2019",
+          "end_date": "19-01-2030",
+          "months": 132
+        },
+        "health": null,
+        "beneficiary": null,
+        "company": {
+          "url_logo": "https://api-sandbox.factus.com.co/logos/companies/1000789002/logos/logo-PabrWVczL536uMeLeWFBBIq0pmitvv4V.png",
+          "nit": "1000789002",
+          "dv": "2",
+          "economic_activity": "1084",
+          "establishment": {
+            "name": "FACTUS V2",
+            "address": "calle 11 8 84",
+            "phone_number": "3161331234",
+            "email": "factus@tudominio.com",
+            "municipality": {
+              "code": "68679",
+              "name": "San Gil",
+              "department": {
+                "code": "68",
+                "name": "Santander"
+              }
+            }
+          }
+        },
+        "customer": {
+          "identification_document": {
+            "code": "13",
+            "name": "Cédula ciudadanía"
+          },
+          "identification": "22222222222",
+          "dv": null,
+          "graphic_representation_name": "Consumidor Final",
+          "trade_name": null,
+          "company": null,
+          "names": "Consumidor Final",
+          "address": "No informado",
+          "email": null,
+          "phone": null,
+          "legal_organization": {
+            "code": "2",
+            "name": "Persona Natural"
+          },
+          "tribute": {
+            "code": "ZZ",
+            "name": "No aplica"
+          },
+          "responsibilities": [
+            {
+              "code": "R-99-PN",
+              "name": "No responsable"
+            }
+          ],
+          "country": null,
+          "municipality": null
+        },
+        "items": [
+          {
+            "scheme_id": null,
+            "collection_concept": null,
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "ACEITE-1",
+            "name": "Aceite 1 L",
+            "quantity": "2.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": "11500.00",
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "23000.00",
+                    "tax_amount": "4370.00",
+                    "rate": "19.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "11500.00",
+            "commercial_sample": null,
+            "total": "27370.00"
+          },
+          {
+            "scheme_id": null,
+            "collection_concept": null,
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "CAFE-1",
+            "name": "Café 250 g",
+            "quantity": "1.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": "8900.00",
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "8900.00",
+                    "tax_amount": "0.00",
+                    "rate": "0.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "8900.00",
+            "commercial_sample": null,
+            "total": "8900.00"
+          }
+        ],
+        "prepayment_details": [],
+        "allowance_charges": [],
+        "taxes": [
+          {
+            "tribute": {
+              "code": "01",
+              "name": "IVA"
+            },
+            "is_excluded": false,
+            "rates": [
+              {
+                "taxable_amount": "23000.00",
+                "tax_amount": "4370.00",
+                "rate": "19.00"
+              },
+              {
+                "taxable_amount": "8900.00",
+                "tax_amount": "0.00",
+                "rate": "0.00"
+              }
+            ]
+          }
+        ],
+        "withholding_taxes": [],
+        "totals": {
+          "prepayment_amount": "0.00",
+          "gross_amount": "31900.00",
+          "taxable_amount": "31900.00",
+          "tax_amount": "4370.00",
+          "surcharge_amount": "0.00",
+          "total": "36270.00"
+        },
+        "currency": null,
+        "related_documents": [],
+        "related_notes": {
+          "credit_notes": [],
+          "debit_notes": []
+        },
+        "cufe": "d194b372fda46d7423b9ba95fd26ed9ee0c184ac2e59eebc1924a094954a6e3772987a3a7f9ab9d0fc0eddd3664035b3",
+        "links": {
+          "qr": "https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?docu...<recortado, 164 caracteres>",
+          "public_url": "https://app-sandbox.factus.com.co/documents/bills/e858e64af6864ea227a06448ba473f8c577ad6c2f90d364db7d6981c23001b17"
+        }
+      }
+    }
+  }
+}

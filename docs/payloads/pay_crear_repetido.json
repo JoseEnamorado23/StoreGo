@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://pay-api-sandbox.factus.com.co/v1/collections",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809276",
+      "amount": 15000,
+      "expiration": 86400
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793809276",
+        "amount": 15000,
+        "status": "ready",
+        "breb_key": "@FC8UL6IPPXOA9QB6X48P",
+        "created_at": "04-11-2026 11:21:16 AM",
+        "qr_expires_at": "05-11-2026 11:21:16 AM",
+        "collected_at": null,
+        "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXQAAAF0CAYAAA...<recortado, 16442 caracteres>"
+      },
+      "status": "success",
+      "message": "Recaudo ya existente"
+    }
+  }
+}

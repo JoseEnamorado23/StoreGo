@@ -8,12 +8,15 @@ from app.db import crear_tablas, esperar_db
 from app.routers import auth, clientes, productos, reportes, ventas, voz, webhooks
 from app.schemas.common import HealthOut
 from app.security import usuario_actual
+from app.services.seed import sembrar_dev
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     esperar_db()
     crear_tablas()
+    if settings.app_env == "dev":
+        sembrar_dev()
     yield
 
 

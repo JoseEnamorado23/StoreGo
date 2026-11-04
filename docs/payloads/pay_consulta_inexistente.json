@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://pay-api-sandbox.factus.com.co/v1/collections/TFJM-PRUEBA-1793809276-NOEXISTE",
+    "body": null
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "status": "error",
+      "message": "Recaudo no encontrado",
+      "data": null
+    }
+  }
+}

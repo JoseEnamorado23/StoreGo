@@ -1,0 +1,221 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/v2/debit-notes/validate",
+    "body": {
+      "reference_code": "TFJM-PRUEBA-1793809616-ND1",
+      "correction_concept_code": 3,
+      "customization_id": "30",
+      "bill_number": "SETP990033343",
+      "customer": {
+        "identification_document_code": "13",
+        "identification": "1017123456",
+        "names": "Juan Pérez Prueba",
+        "legal_organization_code": "2",
+        "email": "juan.prueba@example.com",
+        "phone": "3001234567",
+        "address": "Calle 1 # 2-3"
+      },
+      "observation": "Cambio de valor de prueba",
+      "payment_details": [
+        {
+          "payment_form": "1",
+          "payment_method_code": "10",
+          "amount": "1190.00"
+        }
+      ],
+      "items": [
+        {
+          "code_reference": "ACEITE-1",
+          "name": "Aceite 1 L",
+          "quantity": 1,
+          "price": "1000.00",
+          "unit_measure_code": "94",
+          "standard_code": "999",
+          "taxes": [
+            {
+              "code": "01",
+              "rate": "19.00"
+            }
+          ]
+        }
+      ],
+      "numbering_range_id": 391
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "status": "Created",
+      "message": "Documento con el código de referencia TFJM-PRUEBA-1793809616-ND1 registrado y validado con éxito",
+      "data": {
+        "reference_code": "TFJM-PRUEBA-1793809616-ND1",
+        "number": "ND462",
+        "correction_concept": {
+          "code": "3",
+          "name": "Cambio del valor"
+        },
+        "customization_id": {
+          "code": "30",
+          "name": "Nota Débito que referencia una factura electrónica."
+        },
+        "payment_details": [
+          {
+            "payment_form": {
+              "code": "1",
+              "name": "Pago de contado"
+            },
+            "payment_method": {
+              "code": "10",
+              "name": "Efectivo"
+            },
+            "reference_code": null,
+            "amount": "1190.00",
+            "due_date": null
+          }
+        ],
+        "billing_period": null,
+        "send_email": 0,
+        "is_validated": true,
+        "validated_at": "04-11-2026 11:27:12 AM",
+        "errors": [
+          "Regla: DBF02, Notificación: No se informo el numero de la factura referenciada",
+          "Regla: DAK28, Notificación: No se encuentra el grupo RegistrationAddress",
+          "Regla: DAJ39, Notificación: No se encuentra el grupo TaxScheme del emisor",
+          "Regla: RUT01, Notificación: La validación del estado del RUT próximamente estará disponible."
+        ],
+        "observation": "Cambio de valor de prueba",
+        "created_at": "04-11-2026 11:27:11 AM",
+        "health": null,
+        "company": {
+          "url_logo": "https://api-sandbox.factus.com.co/logos/companies/1000789002/logos/logo-PabrWVczL536uMeLeWFBBIq0pmitvv4V.png",
+          "nit": "1000789002",
+          "dv": "2",
+          "economic_activity": "1084",
+          "establishment": {
+            "name": "FACTUS V2",
+            "address": "calle 11 8 84",
+            "phone_number": "3161331234",
+            "email": "factus@tudominio.com",
+            "municipality": {
+              "code": "68679",
+              "name": "San Gil",
+              "department": {
+                "code": "68",
+                "name": "Santander"
+              }
+            }
+          }
+        },
+        "customer": {
+          "identification_document": {
+            "code": "13",
+            "name": "Cédula ciudadanía"
+          },
+          "identification": "1017123456",
+          "dv": null,
+          "graphic_representation_name": "Juan Pérez Prueba",
+          "trade_name": null,
+          "company": null,
+          "names": "Juan Pérez Prueba",
+          "address": "Calle 1 # 2-3",
+          "email": "juan.prueba@example.com",
+          "phone": "3001234567",
+          "legal_organization": {
+            "code": "2",
+            "name": "Persona Natural"
+          },
+          "tribute": {
+            "code": "ZZ",
+            "name": "No aplica"
+          },
+          "responsibilities": [
+            {
+              "code": "R-99-PN",
+              "name": "No responsable"
+            }
+          ],
+          "country": null,
+          "municipality": null
+        },
+        "items": [
+          {
+            "note": "",
+            "mandate": null,
+            "additional_properties": [],
+            "code_reference": "ACEITE-1",
+            "name": "Aceite 1 L",
+            "quantity": "1.00",
+            "unit_measure": {
+              "code": "94",
+              "name": "unidad"
+            },
+            "standard_code": {
+              "code": "999",
+              "name": "Estándar de adopción del contribuyente"
+            },
+            "discount_rate": "0.00",
+            "discount": "0.00",
+            "gross_value": 1000,
+            "taxes": [
+              {
+                "tribute": {
+                  "code": "01",
+                  "name": "IVA"
+                },
+                "is_excluded": false,
+                "rates": [
+                  {
+                    "taxable_amount": "1000.00",
+                    "tax_amount": "190.00",
+                    "rate": "19.00"
+                  }
+                ]
+              }
+            ],
+            "withholding_taxes": [],
+            "price": "1000.00",
+            "commercial_sample": null,
+            "total": "1190.00"
+          }
+        ],
+        "allowance_charges": [],
+        "taxes": [
+          {
+            "tribute": {
+              "code": "01",
+              "name": "IVA"
+            },
+            "is_excluded": false,
+            "rates": [
+              {
+                "taxable_amount": "1000.00",
+                "tax_amount": "190.00",
+                "rate": "19.00"
+              }
+            ]
+          }
+        ],
+        "withholding_taxes": [],
+        "totals": {
+          "gross_amount": "1000.00",
+          "taxable_amount": "1000.00",
+          "tax_amount": "190.00",
+          "surcharge_amount": "0.00",
+          "total": "1190.00"
+        },
+        "currency": null,
+        "cude": "fee3690d5f7d41ac04b867d3943885dd5993a175ee1347d2bcab0eb392ca0bb77865bc3820c4185473b413e4bc1f6843",
+        "bill": {
+          "reference_code": "TFJM-PRUEBA-1793809616-F3",
+          "number": "SETP990033343",
+          "cufe": "4e0e4f866b278112222858290001de1bec6c655e06de426426ae43e029fda9e8b2e73acbc2280670e4370e53249d4f82"
+        },
+        "links": {
+          "qr": "https://catalogo-vpfe-hab.dian.gov.co/document/searchqr?docu...<recortado, 164 caracteres>",
+          "public_url": "https://app-sandbox.factus.com.co/documents/debit-notes/0eac5fbb0981c8afc905cec5167d345b65c9496aacf51853e2667683e365a14f"
+        }
+      }
+    }
+  }
+}

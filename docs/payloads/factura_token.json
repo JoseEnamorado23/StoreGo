@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api-sandbox.factus.com.co/oauth/token",
+    "body": {
+      "grant_type": "password",
+      "client_id": "<redactado>",
+      "client_secret": "<redactado>",
+      "username": "<redactado>",
+      "password": "<redactado>"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "token_type": "Bearer",
+      "expires_in": 3600,
+      "access_token": "<redactado>",
+      "refresh_token": "<redactado>"
+    }
+  }
+}

@@ -44,8 +44,11 @@ def _estado(reference_code: str) -> str:
 
 
 async def crear_recaudo(reference_code: str, amount: int, expiration: int = 86400) -> RecaudoOut:
-    if not 1000 <= amount <= 12_100_000:
-        raise HTTPException(status_code=422, detail="El monto debe estar entre 1000 y 12100000 COP")
+    if not settings.pay_min_amount <= amount <= settings.pay_max_amount:
+        raise HTTPException(
+            status_code=422,
+            detail=f"El monto debe estar entre {settings.pay_min_amount} y {settings.pay_max_amount} COP",
+        )
     existente = _recaudos.get(reference_code)
     if existente is None:
         existente = RecaudoOut(
@@ -113,7 +116,7 @@ async def crear_nota_credito(
     factura_numero: str,
     concepto: int,
     items: list[ItemFactura],
-    pago: PagoFactura | None = None,
+    pago: PagoFactura,
     cliente: ClienteFactura | None = None,
 ) -> DocumentoOut:
     return _documento("nota_credito", reference_code)
@@ -125,5 +128,6 @@ async def crear_nota_debito(
     concepto: int,
     items: list[ItemFactura],
     pago: PagoFactura,
+    cliente: ClienteFactura | None = None,
 ) -> DocumentoOut:
     return _documento("nota_debito", reference_code)
