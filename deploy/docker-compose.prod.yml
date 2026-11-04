@@ -1,0 +1,51 @@
+# Plantilla de produccion (ejemplo). Ajusta antes de usar.
+# Uso:  docker compose -f deploy/docker-compose.prod.yml --env-file .env up -d --build
+#
+# services:
+#   db:
+#     image: postgres:16
+#     restart: always
+#     environment:
+#       POSTGRES_USER: tienda
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#       POSTGRES_DB: tienda
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#
+#   backend:
+#     build: ../backend
+#     restart: always
+#     env_file: ../.env
+#     depends_on:
+#       - db
+#     # Sin --reload y sin bind mounts en produccion
+#     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+#
+#   frontend:
+#     build:
+#       context: ../frontend
+#       args:
+#         # Se hornea en el build: debe ser la URL publica del backend
+#         NEXT_PUBLIC_API_URL: https://api.TU_DOMINIO
+#         NEXT_PUBLIC_USE_MOCKS: "false"
+#     restart: always
+#
+#   caddy:
+#     image: caddy:2
+#     restart: always
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     volumes:
+#       - ./Caddyfile:/etc/caddy/Caddyfile
+#       - caddy_data:/data
+#     depends_on:
+#       - backend
+#       - frontend
+#
+# volumes:
+#   pgdata:
+#   caddy_data:
+#
+# Nota: el frontend de desarrollo usa "next dev". Para produccion cambia el
+# Dockerfile del frontend a "npm run build" + "npm start".
