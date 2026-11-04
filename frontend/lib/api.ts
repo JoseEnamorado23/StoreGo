@@ -63,9 +63,23 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
     let detalle = res.statusText;
     try {
       const data = await res.json();
-      if (typeof data.detail === "string") detalle = data.detail;
+      if (typeof data.detail === "string") {
+        detalle = data.detail;
+      } else if (Array.isArray(data.detail)) {
+        // 422 de validación de FastAPI: [{loc, msg}]
+        detalle = data.detail
+          .map((d: { loc?: unknown[]; msg?: string }) =>
+            [d.loc?.slice(1).join("."), d.msg].filter(Boolean).join(": "),
+          )
+          .join("; ");
+      }
     } catch {
       // la respuesta no era JSON
+    }
+    // Token vencido o inválido: limpiar y volver al login (excepto en el propio login)
+    if (res.status === 401 && path !== "/api/auth/login" && typeof window !== "undefined") {
+      cerrarSesion();
+      if (window.location.pathname !== "/login") window.location.href = "/login";
     }
     throw new ApiError(res.status, detalle);
   }

@@ -86,6 +86,9 @@ const FAKE_QR_BASE64 =
 
 // Venta digital esperando pago
 export const ventaDigital: VentaDetalle = {
+  devolver_manual: null,
+  factura_pendiente: false,
+  factura_error: null,
   id: 1,
   reference_code: "TFXX-VENTA-0001",
   tipo_pago: "digital",
@@ -124,12 +127,16 @@ export const ventaDigital: VentaDetalle = {
       public_url: "https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=fc3808945f893d56a297a7e1898701886134b22c836932c02f022731fa19348e7182142270fa3fb9d35d2d0",
       factura_origen_id: null,
       errores: null,
+      monto: 0,
     },
   ],
 };
 
 // Venta fiada con factura a crédito emitida
 export const ventaFiado: VentaDetalle = {
+  devolver_manual: null,
+  factura_pendiente: false,
+  factura_error: null,
   id: 2,
   reference_code: "TFXX-VENTA-0002",
   tipo_pago: "fiado",
@@ -155,6 +162,7 @@ export const ventaFiado: VentaDetalle = {
       public_url: "https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=fc3808945f893d56a297a7e1898701886134b22c836932c02f022731fa19348e7182142270fa3fb9d35d2d0",
       factura_origen_id: null,
       errores: null,
+      monto: 0,
     },
   ],
 };
@@ -366,6 +374,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
         public_url: `https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=fc3808945f893d56a297a7e1898701886134b22c836932c02f022731fa19348e7182142270fa3fb9d35d2d0`,
         factura_origen_id: null,
         errores: null,
+        monto: 0,
       });
     }
 
@@ -373,6 +382,9 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
       const nuevaVenta: VentaDetalle = {
         id,
         reference_code: ref,
+        devolver_manual: null,
+        factura_pendiente: false,
+        factura_error: null,
         tipo_pago: "efectivo",
         estado: "pagada",
         total: totalConIva,
@@ -393,6 +405,9 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
       const nuevaVentaFiado: VentaDetalle = {
         id,
         reference_code: ref,
+        devolver_manual: null,
+        factura_pendiente: false,
+        factura_error: null,
         tipo_pago: "fiado",
         estado: "fiado_abierto",
         total: totalConIva,
@@ -413,6 +428,9 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
     const nuevaVentaDigital: VentaDetalle = {
       id,
       reference_code: ref,
+      devolver_manual: null,
+      factura_pendiente: false,
+      factura_error: null,
       tipo_pago: "digital",
       estado: "esperando_pago",
       total: totalConIva,
@@ -517,6 +535,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
       public_url: `https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=cude-${refNC.toLowerCase()}`,
       factura_origen_id: v.id,
       errores: null,
+      monto: 0,
     });
     return v;
   }
@@ -576,6 +595,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
       public_url: `https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=cude-${refND.toLowerCase()}`,
       factura_origen_id: v.id,
       errores: null,
+      monto: 0,
     });
     return v;
   }
@@ -710,6 +730,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
         public_url: `https://catalogo-vpfe.dian.gov.co/document/searchqr?documentkey=fc3808945f893d56a297a7e1898701886134b22c836932c02f022731fa19348e7182142270fa3fb9d35d2d0`,
         factura_origen_id: null,
         errores: null,
+        monto: 0,
       });
     }
     return v;

@@ -116,7 +116,9 @@ export interface DocumentoElectronico {
   is_validated: boolean;
   public_url: string | null;
   factura_origen_id: number | null;
-  errores: Record<string, unknown> | null;
+  // Avisos de la DIAN (no son fallas): objeto en facturas, lista de textos en notas
+  errores: Record<string, unknown> | string[] | null;
+  monto: number; // valor con IVA del documento
 }
 
 export interface VentaResumen {
@@ -136,13 +138,13 @@ export interface VentaDetalle extends VentaResumen {
   items: VentaItem[];
   recaudos: Recaudo[];
   documentos: DocumentoElectronico[];
-  devolver_manual?: number | null;
-  factura_pendiente?: boolean;
-  factura_error?: string | null;
+  devolver_manual: number | null; // COP que el tendero devuelve a mano (Pay no hace reversos)
+  factura_pendiente: boolean;
+  factura_error: string | null;
 }
 
 export interface AbonoIn {
-  monto: number; // entero COP, 1000 a 12100000
+  monto: number; // entero COP, 10000 a 12000000 (límites de Factus Pay)
 }
 
 export interface NotaCreditoIn {
@@ -167,9 +169,11 @@ export interface VozItem {
 
 export interface VozResultado {
   items: VozItem[];
-  cliente: { id: number; nombres: string } | null;
+  cliente: { id: number; nombres: string; confianza?: number | null } | null; // confianza <= 0.5: varios parecidos
   tipo_pago: TipoPago | null;
   no_reconocidos: string[];
+  // Si no es null, mostrarla y pedir que se revise el pedido
+  advertencia?: string | null;
 }
 
 export interface ResumenReporte {
