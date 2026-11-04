@@ -1,12 +1,24 @@
-# Plantilla de Caddy (HTTPS automatico). Reemplaza TU_DOMINIO por tu dominio.
-#
-# app.TU_DOMINIO {
-#     reverse_proxy frontend:3000
-# }
-#
-# api.TU_DOMINIO {
-#     reverse_proxy backend:8000
-# }
-#
-# La URL del webhook de Factus Pay a registrar en el panel sera:
-#   https://api.TU_DOMINIO/api/webhooks/factus-pay?key=TU_LLAVE
+# HTTPS automático (Let's Encrypt) para {$DOMAIN}. El valor viene de deploy/.env.
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Log de acceso en stdout. El webhook de Factus Pay lleva la llave en ?key=:
+	# se reemplaza en el log para que nunca quede escrita.
+	log {
+		output stdout
+		format filter {
+			wrap json
+			request>uri query {
+				replace key REDACTED
+			}
+		}
+	}
+
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		reverse_proxy frontend:3000
+	}
+}

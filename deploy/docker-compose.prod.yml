@@ -1,51 +1,97 @@
-# Plantilla de produccion (ejemplo). Ajusta antes de usar.
-# Uso:  docker compose -f deploy/docker-compose.prod.yml --env-file .env up -d --build
-#
-# services:
-#   db:
-#     image: postgres:16
-#     restart: always
-#     environment:
-#       POSTGRES_USER: tienda
-#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#       POSTGRES_DB: tienda
-#     volumes:
-#       - pgdata:/var/lib/postgresql/data
-#
-#   backend:
-#     build: ../backend
-#     restart: always
-#     env_file: ../.env
-#     depends_on:
-#       - db
-#     # Sin --reload y sin bind mounts en produccion
-#     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
-#
-#   frontend:
-#     build:
-#       context: ../frontend
-#       args:
-#         # Se hornea en el build: debe ser la URL publica del backend
-#         NEXT_PUBLIC_API_URL: https://api.TU_DOMINIO
-#         NEXT_PUBLIC_USE_MOCKS: "false"
-#     restart: always
-#
-#   caddy:
-#     image: caddy:2
-#     restart: always
-#     ports:
-#       - "80:80"
-#       - "443:443"
-#     volumes:
-#       - ./Caddyfile:/etc/caddy/Caddyfile
-#       - caddy_data:/data
-#     depends_on:
-#       - backend
-#       - frontend
-#
-# volumes:
-#   pgdata:
-#   caddy_data:
-#
-# Nota: el frontend de desarrollo usa "next dev". Para produccion cambia el
-# Dockerfile del frontend a "npm run build" + "npm start".
+# Producción (EC2). Uso, desde la raíz del repo:
+#   docker compose -f deploy/docker-compose.prod.yml up -d --build
+# Las variables se leen de deploy/.env (junto a este archivo). Ver deploy/README.md.
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: tienda
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en deploy/.env}
+      POSTGRES_DB: tienda
+    # Sin "ports": solo es alcanzable desde la red interna de Docker (backend -> db:5432)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tienda -d tienda"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: ../backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8000"
+    environment:
+      APP_ENV: ${APP_ENV:-prod}
+      APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL:?Falta APP_ADMIN_EMAIL}
+      APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD:?Falta APP_ADMIN_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:?Falta JWT_SECRET}
+      DATABASE_URL: postgresql://tienda:${POSTGRES_PASSWORD}@db:5432/tienda
+      CORS_ORIGINS: https://${DOMAIN:?Falta DOMAIN}
+      REFERENCE_PREFIX: ${REFERENCE_PREFIX:?Falta REFERENCE_PREFIX}
+      FACTUS_MODE: ${FACTUS_MODE:-fake}
+      FACTUS_BASE_URL: ${FACTUS_BASE_URL:-https://api-sandbox.factus.com.co}
+      FACTUS_CLIENT_ID: ${FACTUS_CLIENT_ID:-}
+      FACTUS_CLIENT_SECRET: ${FACTUS_CLIENT_SECRET:-}
+      FACTUS_USERNAME: ${FACTUS_USERNAME:-}
+      FACTUS_PASSWORD: ${FACTUS_PASSWORD:-}
+      FACTUS_PAY_BASE_URL: ${FACTUS_PAY_BASE_URL:-https://pay-api-sandbox.factus.com.co}
+      FACTUS_PAY_EMAIL: ${FACTUS_PAY_EMAIL:-}
+      FACTUS_PAY_PASSWORD: ${FACTUS_PAY_PASSWORD:-}
+      FACTUS_PAY_WEBHOOK_KEY: ${FACTUS_PAY_WEBHOOK_KEY:-}
+      PAY_MIN_AMOUNT: ${PAY_MIN_AMOUNT:-10000}
+      PAY_MAX_AMOUNT: ${PAY_MAX_AMOUNT:-12000000}
+      FACTUS_RANGO_FACTURA: ${FACTUS_RANGO_FACTURA:-}
+      FACTUS_RANGO_NC: ${FACTUS_RANGO_NC:-}
+      FACTUS_RANGO_ND: ${FACTUS_RANGO_ND:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-groq}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      VOZ_USAR_IA: ${VOZ_USAR_IA:-true}
+    # Sin --reload. --no-access-log: uvicorn imprimiría la URL completa con ?key= del webhook.
+    # --proxy-headers: confía en Caddy para la IP real del cliente y el esquema https.
+    command: >
+      uvicorn app.main:app --host 0.0.0.0 --port 8000
+      --no-access-log --proxy-headers --forwarded-allow-ips="*"
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+      args:
+        # Se hornea en el build: cambiar DOMAIN exige reconstruir (up -d --build)
+        NEXT_PUBLIC_API_URL: https://${DOMAIN:?Falta DOMAIN}
+        NEXT_PUBLIC_USE_MOCKS: "false"
+    restart: always
+    depends_on:
+      - backend
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data      # certificados: no borrar (límites de Let's Encrypt)
+      - caddy_config:/config
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
