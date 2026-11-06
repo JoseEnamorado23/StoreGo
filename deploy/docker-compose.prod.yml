@@ -34,7 +34,9 @@ services:
       APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD:?Falta APP_ADMIN_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:?Falta JWT_SECRET}
       DATABASE_URL: postgresql://tienda:${POSTGRES_PASSWORD}@db:5432/tienda
-      CORS_ORIGINS: https://${DOMAIN:?Falta DOMAIN}
+      # EXTRA_CORS_ORIGINS (opcional, en deploy/.env): otros orígenes permitidos separados por coma,
+      # p. ej. el dominio de CloudFront: https://d1enluo040nl26.cloudfront.net
+      CORS_ORIGINS: https://${DOMAIN:?Falta DOMAIN},${EXTRA_CORS_ORIGINS:-}
       REFERENCE_PREFIX: ${REFERENCE_PREFIX:?Falta REFERENCE_PREFIX}
       FACTUS_MODE: ${FACTUS_MODE:-fake}
       FACTUS_BASE_URL: ${FACTUS_BASE_URL:-https://api-sandbox.factus.com.co}
