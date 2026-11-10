@@ -39,7 +39,7 @@ export default function PaginaResumen() {
   };
 
   useEffect(() => {
-    cargarResumen();
+    void cargarResumen();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

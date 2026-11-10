@@ -76,7 +76,7 @@ export default function PaginaFiados() {
   };
 
   useEffect(() => {
-    cargarDatos();
+    void cargarDatos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -177,7 +177,7 @@ export default function PaginaFiados() {
   const handleAbonoConfirmado = (ventaActualizada: VentaDetalle) => {
     setVentaConQR(null);
     mostrarExito("¡Abono pagado y acreditado a la cartera con éxito!");
-    cargarDatos();
+    void cargarDatos();
   };
 
   return (

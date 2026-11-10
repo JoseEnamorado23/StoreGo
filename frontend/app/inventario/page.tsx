@@ -62,13 +62,13 @@ export default function PaginaInventario() {
   };
 
   useEffect(() => {
-    cargarProductos();
+    void cargarProductos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [soloBajoStock]);
 
   const handleBuscar = (e: React.FormEvent) => {
     e.preventDefault();
-    cargarProductos();
+    void cargarProductos();
   };
 
   // Abrir modal para crear
@@ -132,7 +132,7 @@ export default function PaginaInventario() {
       if (res) {
         mostrarExito(`Producto "${res.nombre}" actualizado.`);
         setModalProductoAbierto(false);
-        cargarProductos();
+        void cargarProductos();
       }
     } else {
       // Crear
@@ -152,7 +152,7 @@ export default function PaginaInventario() {
       if (res) {
         mostrarExito(`Producto "${res.nombre}" agregado con éxito.`);
         setModalProductoAbierto(false);
-        cargarProductos();
+        void cargarProductos();
       }
     }
   };
@@ -186,7 +186,7 @@ export default function PaginaInventario() {
         `Se sumaron ${cantidadEntrada} unidades a "${res.nombre}". Nuevo stock: ${res.stock}`,
       );
       setModalEntradaAbierto(false);
-      cargarProductos();
+      void cargarProductos();
     }
   };
 

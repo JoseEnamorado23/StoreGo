@@ -111,7 +111,7 @@ export default function PaginaVender() {
         setCargandoProductos(false);
       }
     };
-    cargar();
+    void cargar();
   }, [busqueda, mostrarError]);
 
   // Si cambia a Fiado, forzar cliente activo

@@ -52,7 +52,7 @@ export default function PaginaVentas() {
   };
 
   useEffect(() => {
-    cargarVentas();
+    void cargarVentas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtroEstado]);
 

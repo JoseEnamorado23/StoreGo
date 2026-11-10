@@ -76,7 +76,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
   };
 
   useEffect(() => {
-    cargarVenta();
+    void cargarVenta();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ventaId]);
 
@@ -118,7 +118,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
     if (res) {
       mostrarExito("Nota Crédito (Devolución) emitida con éxito.");
       setModalDevolucionAbierto(false);
-      cargarVenta();
+      void cargarVenta();
     }
   };
 
@@ -139,7 +139,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
 
     if (res) {
       mostrarExito("Venta anulada y Nota Crédito emitida.");
-      cargarVenta();
+      void cargarVenta();
     }
   };
 
@@ -171,7 +171,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
       if (recaudoDiferencia) {
         setVentaCobroDiferencia(res);
       }
-      cargarVenta();
+      void cargarVenta();
     }
   };
 
@@ -264,7 +264,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
             type="button"
             onClick={async () => {
               await api.refrescarPago(venta.id);
-              cargarVenta();
+              void cargarVenta();
             }}
             className="rounded-xl bg-amber-600 text-white px-3 py-1.5 text-xs font-bold"
           >
@@ -682,7 +682,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
           onPagoConfirmado={() => {
             setVentaCobroDiferencia(null);
             mostrarExito("¡Cobro de diferencia en Factus Pay completado!");
-            cargarVenta();
+            void cargarVenta();
           }}
           onCerrar={() => setVentaCobroDiferencia(null)}
         />
