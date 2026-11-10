@@ -3,7 +3,7 @@
  * Ejemplo: 15400 -> "$ 15.400"
  */
 export function formatoCOP(valor: number): string {
-  if (isNaN(valor)) return "$ 0";
+  if (Number.isNaN(valor)) return "$ 0";
   return new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: "COP",

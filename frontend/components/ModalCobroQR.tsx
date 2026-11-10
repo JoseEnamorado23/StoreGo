@@ -47,23 +47,23 @@ export default function ModalCobroQR({
   const parsearExpiracion = (fechaStr: string | null): Date | null => {
     if (!fechaStr) return null;
     const d = new Date(fechaStr);
-    if (!isNaN(d.getTime())) return d;
+    if (!Number.isNaN(d.getTime())) return d;
 
     const m = fechaStr.match(
       /^(\d{2})-(\d{2})-(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})\s*(AM|PM)?$/i,
     );
     if (m) {
       const [, dia, mes, anio, horas, mins, segs, ampm] = m;
-      let h = parseInt(horas, 10);
+      let h = Number.parseInt(horas, 10);
       if (ampm?.toUpperCase() === "PM" && h < 12) h += 12;
       if (ampm?.toUpperCase() === "AM" && h === 12) h = 0;
       return new Date(
-        parseInt(anio, 10),
-        parseInt(mes, 10) - 1,
-        parseInt(dia, 10),
+        Number.parseInt(anio, 10),
+        Number.parseInt(mes, 10) - 1,
+        Number.parseInt(dia, 10),
         h,
-        parseInt(mins, 10),
-        parseInt(segs, 10),
+        Number.parseInt(mins, 10),
+        Number.parseInt(segs, 10),
       );
     }
     return null;

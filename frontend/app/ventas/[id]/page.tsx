@@ -42,7 +42,7 @@ interface PaginaDetalleVentaProps {
 
 export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) {
   const resolvedParams = use(params);
-  const ventaId = parseInt(resolvedParams.id, 10);
+  const ventaId = Number.parseInt(resolvedParams.id, 10);
   const router = useRouter();
 
   const { mostrarExito, mostrarError, mostrarInfo, ejecutarConCarga } = useAlerta();
@@ -98,7 +98,7 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
     const itemsADevolver: ItemIn[] = Object.entries(cantidadesDevolver)
       .filter(([_, cant]) => cant > 0)
       .map(([prodId, cant]) => ({
-        producto_id: parseInt(prodId, 10),
+        producto_id: Number.parseInt(prodId, 10),
         cantidad: cant,
       }));
 

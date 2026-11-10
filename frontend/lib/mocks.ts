@@ -229,7 +229,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
 
   const matchPutProducto = ruta.match(/^\/api\/productos\/(\d+)$/);
   if (m === "PUT" && matchPutProducto) {
-    const id = parseInt(matchPutProducto[1], 10);
+    const id = Number.parseInt(matchPutProducto[1], 10);
     const index = productos.findIndex((x) => x.id === id);
     if (index !== -1) {
       const data = body as ProductoUpdate;
@@ -240,7 +240,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
 
   const matchEntrada = ruta.match(/^\/api\/productos\/(\d+)\/entrada$/);
   if (m === "POST" && matchEntrada) {
-    const id = parseInt(matchEntrada[1], 10);
+    const id = Number.parseInt(matchEntrada[1], 10);
     const index = productos.findIndex((x) => x.id === id);
     if (index !== -1) {
       const data = body as EntradaInventario;
@@ -278,7 +278,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
   // Cartera dinámica por cliente
   const matchCartera = ruta.match(/^\/api\/clientes\/(\d+)\/cartera$/);
   if (m === "GET" && matchCartera) {
-    const cid = parseInt(matchCartera[1], 10);
+    const cid = Number.parseInt(matchCartera[1], 10);
     const cli = clientes.find((c) => c.id === cid) || clientes[0];
     const ventasFiadas = listaVentas.filter(
       (v) => v.cliente_id === cli.id && (v.estado === "fiado_abierto" || v.saldo > 0),
@@ -322,7 +322,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
 
   const matchVentaDetalle = ruta.match(/^\/api\/ventas\/(\d+)$/);
   if (m === "GET" && matchVentaDetalle) {
-    const id = parseInt(matchVentaDetalle[1], 10);
+    const id = Number.parseInt(matchVentaDetalle[1], 10);
     const encontrada = listaVentas.find((v) => v.id === id);
     if (encontrada) return encontrada;
     return ventaDigital;
@@ -462,7 +462,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
   // --- ABONOS A FIADOS ---
   const matchAbono = ruta.match(/^\/api\/ventas\/(\d+)\/abonos$/);
   if (m === "POST" && matchAbono) {
-    const vid = parseInt(matchAbono[1], 10);
+    const vid = Number.parseInt(matchAbono[1], 10);
     const data = body as AbonoIn;
     const v = listaVentas.find((x) => x.id === vid) || ventaFiado;
     const abonoIndex = v.recaudos.filter((r) => r.tipo === "abono").length + 1;
@@ -486,7 +486,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
   // --- NOTA CRÉDITO ---
   const matchNC = ruta.match(/^\/api\/ventas\/(\d+)\/nota-credito$/);
   if (m === "POST" && matchNC) {
-    const vid = parseInt(matchNC[1], 10);
+    const vid = Number.parseInt(matchNC[1], 10);
     const data = body as NotaCreditoIn;
     const v = listaVentas.find((x) => x.id === vid) || ventaDigital;
     const numNC = v.documentos.filter((d) => d.tipo === "nota_credito").length + 1;
@@ -543,7 +543,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
   // --- NOTA DÉBITO ---
   const matchND = ruta.match(/^\/api\/ventas\/(\d+)\/nota-debito$/);
   if (m === "POST" && matchND) {
-    const vid = parseInt(matchND[1], 10);
+    const vid = Number.parseInt(matchND[1], 10);
     const data = body as NotaDebitoIn;
     const v = listaVentas.find((x) => x.id === vid) || ventaDigital;
     const numND = v.documentos.filter((d) => d.tipo === "nota_debito").length + 1;
@@ -625,7 +625,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
           else if (numStr === "tres") cant = 3;
           else if (numStr === "cuatro") cant = 4;
           else if (numStr === "cinco") cant = 5;
-          else if (!isNaN(parseInt(numStr, 10))) cant = parseInt(numStr, 10);
+          else if (!Number.isNaN(Number.parseInt(numStr, 10))) cant = Number.parseInt(numStr, 10);
         }
         itemsDetectados.push({
           producto_id: prod.id,
@@ -690,7 +690,7 @@ export function getMock(method: string, path: string, body?: unknown): unknown |
   // Refrescar pago
   const matchRefrescar = ruta.match(/^\/api\/ventas\/(\d+)\/refrescar-pago$/);
   if (m === "POST" && matchRefrescar) {
-    const id = parseInt(matchRefrescar[1], 10);
+    const id = Number.parseInt(matchRefrescar[1], 10);
     const v = listaVentas.find((x) => x.id === id) || ventaDigital;
 
     // Buscar el recaudo pendiente
