@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import BottomNav from "@/components/BottomNav";
 import Header from "@/components/Header";
 import { AlertaProvider } from "@/components/AlertaContext";
+import CognitoProvider from "@/components/CognitoProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,13 +36,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="flex min-h-full flex-col bg-slate-50 text-slate-900 antialiased selection:bg-emerald-100">
         <AlertaProvider>
-          <div className="flex min-h-screen w-full flex-col">
-            <Header />
-            <main className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-5 pb-24 md:pb-10">
-              {children}
-            </main>
-            <BottomNav />
-          </div>
+          <CognitoProvider>
+            <div className="flex min-h-screen w-full flex-col">
+              <Header />
+              <main className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-5 pb-24 md:pb-10">
+                {children}
+              </main>
+              <BottomNav />
+            </div>
+          </CognitoProvider>
         </AlertaProvider>
       </body>
     </html>

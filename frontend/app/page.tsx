@@ -57,6 +57,12 @@ export default function Inicio() {
             <ArrowRight className="w-5 h-5" />
           </Link>
         )}
+        <Link
+          href="/archivos"
+          className="flex items-center justify-center gap-2 w-full rounded-2xl border border-slate-300 bg-white py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 min-h-[48px]"
+        >
+          <span>Mis archivos (cuenta Cognito)</span>
+        </Link>
       </div>
 
       <div className="mt-12 rounded-xl bg-emerald-50/80 p-3.5 border border-emerald-100 text-xs text-emerald-800 max-w-xs">
