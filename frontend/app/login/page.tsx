@@ -78,12 +78,12 @@ export default function PaginaLogin() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+            <label htmlFor="login-email" className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
               Correo electrónico
             </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-3.5 h-5 w-5 text-slate-400" />
-              <input
+              <input id="login-email"
                 type="email"
                 required
                 value={email}
@@ -95,12 +95,12 @@ export default function PaginaLogin() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+            <label htmlFor="login-password" className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
               Contraseña
             </label>
             <div className="relative">
               <KeyRound className="absolute left-3.5 top-3.5 h-5 w-5 text-slate-400" />
-              <input
+              <input id="login-password"
                 type="password"
                 required
                 value={password}

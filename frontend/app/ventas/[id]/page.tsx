@@ -630,10 +630,10 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
 
             <form onSubmit={ejecutarAgregarProductos} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="venta-producto-agregar" className="block text-xs font-bold text-slate-700 mb-1">
                   Producto a añadir *
                 </label>
-                <select
+                <select id="venta-producto-agregar"
                   required
                   value={productoAgregarId}
                   onChange={(e) => setProductoAgregarId(Number(e.target.value))}
@@ -649,10 +649,10 @@ export default function PaginaDetalleVenta({ params }: PaginaDetalleVentaProps) 
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="venta-cantidad-agregar" className="block text-xs font-bold text-slate-700 mb-1">
                   Cantidad a añadir *
                 </label>
-                <input
+                <input id="venta-cantidad-agregar"
                   type="number"
                   required
                   min="1"

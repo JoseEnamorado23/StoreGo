@@ -743,10 +743,10 @@ export default function PaginaVender() {
 
           {/* SELECTOR DE MÉTODO DE PAGO */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 px-1">
+            <span id="etiqueta-metodo-pago" className="block text-xs font-bold uppercase tracking-wider text-slate-600 px-1">
               Método de pago
-            </label>
-            <div className="grid grid-cols-3 gap-2">
+            </span>
+            <div role="group" aria-labelledby="etiqueta-metodo-pago" className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => setTipoPago("efectivo")}
@@ -1117,8 +1117,8 @@ export default function PaginaVender() {
             <form onSubmit={guardarNuevoCliente} className="space-y-3.5">
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Tipo Doc *</label>
-                  <select
+                  <label htmlFor="cliente-tipo-doc" className="block text-xs font-bold text-slate-700 mb-1">Tipo Doc *</label>
+                  <select id="cliente-tipo-doc"
                     value={tipoDocNuevo}
                     onChange={(e) => setTipoDocNuevo(e.target.value)}
                     className="w-full rounded-xl border border-slate-300 p-2.5 text-xs font-bold bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -1128,10 +1128,10 @@ export default function PaginaVender() {
                   </select>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label htmlFor="cliente-documento" className="block text-xs font-bold text-slate-700 mb-1">
                     Número de documento *
                   </label>
-                  <input
+                  <input id="cliente-documento"
                     type="text"
                     required
                     value={docNuevo}
@@ -1143,10 +1143,10 @@ export default function PaginaVender() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
+                <label htmlFor="cliente-nombres" className="block text-xs font-bold text-slate-700 mb-1">
                   Nombres o Razón Social *
                 </label>
-                <input
+                <input id="cliente-nombres"
                   type="text"
                   required
                   value={nombresNuevo}
@@ -1158,8 +1158,8 @@ export default function PaginaVender() {
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Teléfono</label>
-                  <input
+                  <label htmlFor="cliente-telefono" className="block text-xs font-bold text-slate-700 mb-1">Teléfono</label>
+                  <input id="cliente-telefono"
                     type="tel"
                     value={telefonoNuevo}
                     onChange={(e) => setTelefonoNuevo(e.target.value)}
@@ -1168,8 +1168,8 @@ export default function PaginaVender() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Email</label>
-                  <input
+                  <label htmlFor="cliente-email" className="block text-xs font-bold text-slate-700 mb-1">Email</label>
+                  <input id="cliente-email"
                     type="email"
                     value={emailNuevo}
                     onChange={(e) => setEmailNuevo(e.target.value)}
@@ -1180,8 +1180,8 @@ export default function PaginaVender() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Dirección</label>
-                <input
+                <label htmlFor="cliente-direccion" className="block text-xs font-bold text-slate-700 mb-1">Dirección</label>
+                <input id="cliente-direccion"
                   type="text"
                   value={direccionNuevo}
                   onChange={(e) => setDireccionNuevo(e.target.value)}

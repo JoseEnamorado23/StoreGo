@@ -255,10 +255,10 @@ export default function ModalOrdenVoz({
 
             {/* Frase reconocida editable */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
+              <label htmlFor="voz-frase" className="block text-xs font-bold text-slate-700 mb-1">
                 Frase reconocida (editable):
               </label>
-              <textarea
+              <textarea id="voz-frase"
                 rows={3}
                 value={textoVoz}
                 onChange={(e) => setTextoVoz(e.target.value)}

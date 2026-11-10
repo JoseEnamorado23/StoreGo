@@ -481,10 +481,10 @@ export default function PaginaFiados() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <label htmlFor="fiado-monto-abono" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                   Monto a abonar (COP) *
                 </label>
-                <input
+                <input id="fiado-monto-abono"
                   type="number"
                   required
                   min="10000"

@@ -360,10 +360,10 @@ export default function PaginaInventario() {
 
             <form onSubmit={guardarProducto} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <label htmlFor="producto-nombre" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                   Nombre del producto *
                 </label>
-                <input
+                <input id="producto-nombre"
                   type="text"
                   required
                   value={formNombre}
@@ -374,10 +374,10 @@ export default function PaginaInventario() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <label htmlFor="producto-codigo" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                   Código de barras o referencia (opcional)
                 </label>
-                <input
+                <input id="producto-codigo"
                   type="text"
                   value={formCodigo}
                   onChange={(e) => setFormCodigo(e.target.value)}
@@ -388,10 +388,10 @@ export default function PaginaInventario() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  <label htmlFor="producto-precio" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                     Precio base sin IVA ($) *
                   </label>
-                  <input
+                  <input id="producto-precio"
                     type="number"
                     required
                     min="0"
@@ -406,10 +406,10 @@ export default function PaginaInventario() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  <span id="etiqueta-iva" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                     Tarifa de IVA *
-                  </label>
-                  <div className="grid grid-cols-2 gap-1.5">
+                  </span>
+                  <div role="group" aria-labelledby="etiqueta-iva" className="grid grid-cols-2 gap-1.5">
                     <button
                       type="button"
                       onClick={() => setFormIva(0)}
@@ -447,10 +447,10 @@ export default function PaginaInventario() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  <label htmlFor="producto-stock" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                     Stock inicial
                   </label>
-                  <input
+                  <input id="producto-stock"
                     type="number"
                     min="0"
                     value={formStock}
@@ -463,10 +463,10 @@ export default function PaginaInventario() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  <label htmlFor="producto-stock-minimo" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                     Stock mínimo alerta
                   </label>
-                  <input
+                  <input id="producto-stock-minimo"
                     type="number"
                     min="1"
                     value={formStockMinimo}
@@ -536,10 +536,10 @@ export default function PaginaInventario() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <label htmlFor="producto-entrada-cantidad" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                   Cantidad que entra *
                 </label>
-                <input
+                <input id="producto-entrada-cantidad"
                   type="number"
                   required
                   min="1"
@@ -564,10 +564,10 @@ export default function PaginaInventario() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <label htmlFor="producto-entrada-nota" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
                   Nota o proveedor (opcional)
                 </label>
-                <input
+                <input id="producto-entrada-nota"
                   type="text"
                   value={notaEntrada}
                   onChange={(e) => setNotaEntrada(e.target.value)}
