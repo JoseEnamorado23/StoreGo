@@ -1,6 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
 __pycache__
 *.pyc
 .pytest_cache
 .venv
-.env
-.env.*
+venv
+node_modules
+.next
+*.log
+logs

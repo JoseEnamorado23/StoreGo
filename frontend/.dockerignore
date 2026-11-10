@@ -1,5 +1,12 @@
-node_modules
-.next
+.git
+.gitignore
 .env
 .env.*
-.git
+node_modules
+.next
+__pycache__
+*.pyc
+.venv
+venv
+*.log
+logs
