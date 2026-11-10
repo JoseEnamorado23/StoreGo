@@ -6,6 +6,7 @@ import { useAlerta } from "@/components/AlertaContext";
 import {
   cerrarSesionCognito,
   iniciarSesionCognito,
+  iniciarSesionConGoogle,
   obtenerAccessToken,
 } from "@/lib/cognito";
 import {
@@ -94,6 +95,17 @@ export default function PaginaArchivos() {
         >
           <LogIn className="h-5 w-5" />
           <span>Iniciar sesión con Cognito</span>
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            iniciarSesionConGoogle().catch(() =>
+              mostrarError("No se pudo abrir el login con Google."),
+            )
+          }
+          className="mt-3 flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white py-4 text-base font-bold text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+        >
+          <span>Continuar con Google</span>
         </button>
       </div>
     );

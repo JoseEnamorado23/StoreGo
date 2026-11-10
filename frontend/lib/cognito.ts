@@ -54,6 +54,12 @@ export async function iniciarSesionCognito(): Promise<void> {
   await signInWithRedirect();
 }
 
+/** Login con Google a través de Cognito (el proveedor se llama exactamente "Google"). */
+export async function iniciarSesionConGoogle(): Promise<void> {
+  configurarCognito();
+  await signInWithRedirect({ provider: "Google" });
+}
+
 export async function cerrarSesionCognito(): Promise<void> {
   configurarCognito();
   await signOut();
